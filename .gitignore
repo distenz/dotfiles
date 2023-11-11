@@ -18,6 +18,8 @@
 !.cogfig/picom/
 !.config/scripts/
 !.config/wallpaper.sh
+!.mlterm/main
+!.mlterm/key
 !.config/compton.conf
 !.gitignore
 !.selected_editor
