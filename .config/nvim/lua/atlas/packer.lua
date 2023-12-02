@@ -29,58 +29,71 @@ return require('packer').startup(function(use)
   }
 
   -- COLOR SCHEMES
+
   use({
-	  'rose-pine/neovim',
-	  as = 'rose-pine',
-	  config = function()
-		  require("rose-pine").setup()
-		  vim.cmd('colorscheme rose-pine')
-	  end
+      'catppuccin/nvim',
+      as = 'catppuccin',
+      config = function()
+          require("catppuccin").setup({
+              flavour = "mocha", -- latte, frappe, macchiato, mocha
+              background = { -- :h background
+              light = "latte",
+              dark = "mocha",
+          },
+          transparent_background = false, -- disables setting the background color.
+          show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
+          term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+          dim_inactive = {
+              enabled = true, -- dims the background color of inactive window
+              shade = "light",
+              percentage = 0.15, -- percentage of the shade to apply to the inactive window
+          },
+          no_italic = false, -- Force no italic
+          no_bold = false, -- Force no bold
+          no_underline = false, -- Force no underline
+          styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+          comments = {}, -- Change the style of comments
+          conditionals = {},
+          loops = {},
+          functions = {},
+          keywords = {},
+          strings = {},
+          variables = {},
+          numbers = {},
+          booleans = {},
+          properties = {},
+          types = {},
+          operators = {},
+      },
+      color_overrides = {
+          mocha = {
+              base = "#121212",
+              mantle = "#121212",
+              crust = "#121212",
+          }
+      },
+      custom_highlights = {},
+      integrations = {
+          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+      },
   })
-  use({
-    'rebelot/kanagawa.nvim',
-    as = 'kanagawa',
-    config = function()
-        require('kanagawa').setup()
-        vim.cmd("colorscheme kanagawa")
+
+  -- setup must be called before loading
+  vim.cmd.colorscheme "catppuccin"
     end
-  })
-  use({
-    'folke/tokyonight.nvim',
-    as = 'tokyonight',
-    config = function()
-        require('tokyonight').setup()
-        vim.cmd("colorscheme tokyonight")
-        vim.cmd("colorscheme tokyonight-night")
-        vim.cmd("colorscheme tokyonight-moon")
-        vim.cmd("colorscheme tokyonight-storm")
-    end
-  })
-  use({
-    'catppuccin/nvim',
-    as = 'catppuccin',
-    config = function()
-        require('catppuccin').setup()
-        vim.cmd("colorscheme catppuccin")
-        vim.cmd("colorscheme catppuccin-frappe")
-        vim.cmd("colorscheme catppuccin-mocha")
-        vim.cmd("colorscheme catppuccin-macchiato")
-    end
-  })
---  use({
---    'tiagovla/tokyodark.nvim',
---    as = 'tokyodark',
---    config = function()
---        require('tokyodark').setup()
---        vim.cmd("colorscheme tokyodark")
---    end
---  })
+})
 
   use( 'nvim-treesitter/nvim-treesitter', {
       run = ':TSUpdate'
   })
   use( 'nvim-treesitter/playground' )
-  use( 'theprimeagen/harpoon' )
+
+  use "nvim-lua/plenary.nvim" -- don't forget to add this one if you don't have it yet!
+  use {
+      "ThePrimeagen/harpoon",
+      branch = "harpoon2",
+      requires = { {"nvim-lua/plenary.nvim"} }
+  }
   use( 'mbbill/undotree' )
   use( 'tpope/vim-fugitive' )
 
@@ -106,8 +119,6 @@ return require('packer').startup(function(use)
 		  {'rafamadriz/friendly-snippets'}, -- Optional
 	  }
   }
-
-  use { "alexghergh/nvim-tmux-navigation" }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
