@@ -20,3 +20,4 @@ only_use_unicode_font = true
 bg_color = #24241f1f3131
 bel_mode = sound|visual
 use_clipboard = false
+fontsize = 20
