@@ -54,7 +54,8 @@ lsp.set_preferences({
     }
 })
 
-lsp.on_attach(function(client, bufnr)
+-- client, bufnr
+lsp.on_attach(function(_, bufnr)
   local opts = {buffer = bufnr, remap = false}
 
   vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
@@ -67,12 +68,32 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
   vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+
+  vim.api.nvim_create_autocmd("CursorHold", {
+      buffer = bufnr,
+      callback = function()
+          for _, winid in pairs(vim.api.nvim_tabpage_list_wins(0)) do
+              if vim.api.nvim_win_get_config(winid).zindex then
+                  return
+              end
+          end
+          local opts2 = {
+              focusable = true,
+              close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+              border = 'rounded',
+              source = 'always',
+              prefix = ' ',
+              scope = 'cursor',
+          }
+          vim.diagnostic.open_float(nil, opts2)
+      end
+  })
 end)
 
 local lspc = require('lspconfig')
 lspc.tsserver.setup({
-  root_dir = lspc.util.root_pattern("package.json"),
-  single_file_support = false
+    root_dir = lspc.util.root_pattern("package.json"),
+    single_file_support = false
 })
 
 lspc.denols.setup({
