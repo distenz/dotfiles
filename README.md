@@ -3,7 +3,10 @@
 ## Dependencies
 
 - fd
+- slurp
+- grim
 - wl-gammarelay-rs
+- wl-recorder
 
 - sway
 - foot

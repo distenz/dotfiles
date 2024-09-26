@@ -206,6 +206,17 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+# screenshots
+bindsym $mod+Ctrl+1 exec --no-startup-id grim $(xdg-user-dir PICTURES)/captured/$(date +'%s_%Y%m%d-%I%M%S.png')
+bindsym $mod+Ctrl+2 exec --no-startup-id grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') $(xdg-user-dir PICTURES)/captured/$(date +'%s_%Y%m%d-%I%M%S.png')
+bindsym $mod+Ctrl+3 exec --no-startup-id grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" $(xdg-user-dir PICTURES)/captured/$(date +'%s_%Y%m%d-%I%M%S.png')
+bindsym $mod+Ctrl+4 exec --no-startup-id grim -g "$(slurp)" $(xdg-user-dir PICTURES)/captured/$(date +'%s_%Y%m%d-%I%M%S.png')
+
+bindsym $mod+Mod1+1 exec --no-startup-id grim - | wl-copy
+bindsym $mod+Mod1+2 exec --no-startup-id grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | wl-copy
+bindsym $mod+Mod1+3 exec --no-startup-id grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" - | wl-copy
+bindsym $mod+Mod1+4 exec --no-startup-id grim -g "$(slurp)" - | wl-copy
+
 default_border normal 1
 client.focused #008800 #008800 #000000 #ffff00 #008800
 
